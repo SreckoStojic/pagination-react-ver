@@ -1,23 +1,27 @@
 import { useState } from "react";
 
 function usePagination(data, limit) {
-    let [currentPage, setCurrentPage] = useState(1);
+    let [currentPage, setCurrentPage] = useState(0);
     let maximumPages = Math.ceil(data.length / limit);
   
     function currentData() {
-      const start = (currentPage - 1) * limit;
+      const start = currentPage * limit;
       const end = start + limit;
       return data.slice(start, end);
     }
   
     function next() {
-      setCurrentPage((currentPage + 1 < maximumPages) ? ++currentPage : currentPage);
-      return ++currentPage;
+      if (Number(currentPage) <= Number(maximumPages)) {
+        console.log("if next");
+        setCurrentPage(currentPage + 1);
+      }
     }
   
     function previous() {
-      setCurrentPage((currentPage - 1 > 0) ? --currentPage : currentPage);
-      return --currentPage;
+      if (Number(currentPage) > -1) {
+        console.log("if previous");
+        setCurrentPage(currentPage - 1);
+      }
     }
   
     function jump(pageNumber) {

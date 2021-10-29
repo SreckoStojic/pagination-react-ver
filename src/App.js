@@ -3,8 +3,6 @@ import usePagination  from './custom-hooks/usePagination';
 import faker from  'faker';
 import { useState } from 'react';
 
-function App() {
-
   let fakeData = [];
   const fakeDataCount = 50;
   for (let i = 0; i < fakeDataCount; i++) {
@@ -16,29 +14,30 @@ function App() {
     })
     fakeData.push(obj);
   }
+
+function App() {
   const pageLimit = 7;
   let data = usePagination(fakeData, pageLimit);
   let [page, setPage] = useState(data.currentPage);
-
+  
   function handleChange(event) {
-    data.jump(event.target.value);
-    data.setCurrentPage(event.target.value);
     setPage(event.target.value);
+    data.jump(event.target.value);
   }
 
   function handleNext() {
     data.next();
-    setPage(data.currentPage + 1);
+    setPage(data.currentPage); 
   }
 
   function handlePrevious() {
     data.previous();
-    setPage(data.currentPage - 1);
+    setPage(data.currentPage);
   }
 
   function pagesToArray(array){
     let pageArray = [];
-    for (let i = 1; i <= array; i++){
+    for (let i = 0; i < array; i++){
       pageArray.push(i);
     }
     return pageArray;
@@ -65,7 +64,7 @@ function App() {
       </table>
       <div className="css-pages">
         <button onClick={handlePrevious}>Previous</button>
-        <select value={page++} onChange={handleChange}>
+        <select value={page} onChange={handleChange}>
           {
             pagesArray.map(pageNum => 
               <option value={pageNum}>{pageNum}</option>

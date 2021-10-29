@@ -9,6 +9,7 @@ function App() {
   const fakeDataCount = 50;
   for (let i = 0; i < fakeDataCount; i++) {
     let obj = new Object({
+      id: i,
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       jobArea: faker.name.jobArea()
@@ -48,12 +49,14 @@ function App() {
     <div className="App">
       <table className="css-table">
         <tr>
+          <th>ID</th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>Job Area</th>
         </tr>
         {data.currentData().map(fd => 
           <tr>
+            <td>{fd.id}</td>
             <td>{fd.firstName}</td>
             <td>{fd.lastName}</td>
             <td>{fd.jobArea}</td>
@@ -62,7 +65,7 @@ function App() {
       </table>
       <div className="css-pages">
         <button onClick={handlePrevious}>Previous</button>
-        <select value={page} onChange={handleChange}>
+        <select value={page++} onChange={handleChange}>
           {
             pagesArray.map(pageNum => 
               <option value={pageNum}>{pageNum}</option>

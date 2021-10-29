@@ -1,7 +1,7 @@
 import './App.css';
 import usePagination  from './custom-hooks/usePagination';
 import faker from  'faker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
   let fakeData = [];
   const fakeDataCount = 50;
@@ -21,8 +21,8 @@ function App() {
   let [page, setPage] = useState(data.currentPage);
   
   function handleChange(event) {
-    setPage(event.target.value);
-    data.jump(event.target.value);
+    setPage(Number(event.target.value));
+    data.jump(Number(event.target.value));
   }
 
   function handleNext() {
@@ -43,6 +43,10 @@ function App() {
     return pageArray;
   }
   let pagesArray = pagesToArray(data.maximumPages);
+  
+  useEffect(() => {
+    setPage(data.currentPage);
+  }, [data.currentPage]);
 
   return (
     <div className="App">
@@ -63,7 +67,7 @@ function App() {
         )}
       </table>
       <div className="css-pages">
-        <button onClick={handlePrevious}>Previous</button>
+        <button onClick={handlePrevious} disabled={page === 0 ? true : ''}>Previous</button>
         <select value={page} onChange={handleChange}>
           {
             pagesArray.map(pageNum => 
@@ -71,7 +75,7 @@ function App() {
             )
           }
         </select>
-        <button onClick={handleNext}>Next</button>
+        <button onClick={handleNext} disabled={page === data.maximumPages - 1 ? true : ''}>Next</button>
       </div>
     </div>
   );
